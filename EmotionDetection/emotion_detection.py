@@ -1,4 +1,7 @@
+"""Module for emotion detection."""
+
 import requests
+
 
 def emotion_detector(text_to_analyze):
     url = "https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict"
@@ -27,5 +30,13 @@ def emotion_detector(text_to_analyze):
         scores['dominant_emotion'] = dominant_emotion
         
         return scores
-    else:
-        response.raise_for_status()
+    elif response.status_code == 400:
+        # Return dictionary with None values
+        return {
+            'anger': None,
+            'disgust': None,
+            'fear': None,
+            'joy': None,
+            'sadness': None,
+            'dominant_emotion': None
+        }
